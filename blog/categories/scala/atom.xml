@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://spreadscala.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Scala | My Octopress Blog]]></title>
+  <link href="http://spreadscala.github.io/blog/categories/scala/atom.xml" rel="self"/>
   <link href="http://spreadscala.github.io/"/>
   <updated>2013-07-16T22:00:47+08:00</updated>
   <id>http://spreadscala.github.io/</id>
