@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Spread Scala]]></title>
+  <link href="http://spreadscala.github.io/atom.xml" rel="self"/>
+  <link href="http://spreadscala.github.io/"/>
+  <updated>2013-07-17T08:24:44+08:00</updated>
+  <id>http://spreadscala.github.io/</id>
+  <author>
+    <name><![CDATA[Bigfish]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello Scala]]></title>
+    <link href="http://spreadscala.github.io/blog/2013/07/16/hello-scala/"/>
+    <updated>2013-07-16T21:56:00+08:00</updated>
+    <id>http://spreadscala.github.io/blog/2013/07/16/hello-scala</id>
+    <content type="html"><![CDATA[<p>Hello Scala!
+Thanks github!</p>
+]]></content>
+  </entry>
+  
+</feed>
