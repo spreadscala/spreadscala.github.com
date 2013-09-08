@@ -7,4 +7,10 @@ categories: Scala
 footer: true
 sharing: true
 ---
-你好，我是陈子文。这是我的第一篇博客。感谢github提供的资源。
+
+Hello Scala! Hello World!
+
+I'm a scala fans. I'm deeply attracted by its magic power with clean expression ability. I
+can't help falling in love with this magic language and its ecosystem.
+
+Hello everything in the Scala world!
