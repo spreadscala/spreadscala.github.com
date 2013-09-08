@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Spread Scala]]></title>
-  <link href="http://spreadscala.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Authentication | Spread Scala]]></title>
+  <link href="http://spreadscala.github.io/blog/categories/authentication/atom.xml" rel="self"/>
   <link href="http://spreadscala.github.io/"/>
   <updated>2013-09-08T16:17:54+08:00</updated>
   <id>http://spreadscala.github.io/</id>
@@ -144,20 +144,6 @@ life cycle. And for the second, Lift&rsquo;s powerful snippet can provides a con
 the last page visited.</p>
 
 <p>And the for authentication, just setting a var flag to be true for simplicity.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello Scala]]></title>
-    <link href="http://spreadscala.github.io/blog/2013/07/16/hello-scala/"/>
-    <updated>2013-07-16T20:44:00+08:00</updated>
-    <id>http://spreadscala.github.io/blog/2013/07/16/hello-scala</id>
-    <content type="html"><![CDATA[<p>Hello Scala! Hello World!</p>
-
-<p>I&rsquo;m a scala fans. I&rsquo;m deeply attracted by its magic power with clean expression ability. I
-can&rsquo;t help falling in love with this magic language and its ecosystem.</p>
-
-<p>Hello everything in the Scala world!</p>
 ]]></content>
   </entry>
   

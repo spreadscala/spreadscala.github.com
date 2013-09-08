@@ -4,14 +4,148 @@
   <title><![CDATA[Category: Scala | Spread Scala]]></title>
   <link href="http://spreadscala.github.io/blog/categories/scala/atom.xml" rel="self"/>
   <link href="http://spreadscala.github.io/"/>
-  <updated>2013-09-08T14:21:43+08:00</updated>
+  <updated>2013-09-08T16:17:54+08:00</updated>
   <id>http://spreadscala.github.io/</id>
   <author>
-    <name><![CDATA[Iven Chame]]></name>
+    <name><![CDATA[Iven Chen]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Force User Login When Not Authenticated In Lift]]></title>
+    <link href="http://spreadscala.github.io/blog/2013/09/08/force-user-login-when-not-authenticated-in-lift/"/>
+    <updated>2013-09-08T14:35:00+08:00</updated>
+    <id>http://spreadscala.github.io/blog/2013/09/08/force-user-login-when-not-authenticated-in-lift</id>
+    <content type="html"><![CDATA[<h2>REQUIREMENT</h2>
+
+<p>It&rsquo;s a common request in a web application that, when a user is not authenticated, or the session
+is invalidated, force the user to login by redirecting user to a login page. The rule is typically applied to OA systems
+that requires a user to login to do everything.</p>
+
+<h2>ANALYSIS</h2>
+
+<p>From the requirement, we can conclude below design:</p>
+
+<ol>
+<li><p>A filter or interceptor that will check if user has been authenticated. If user has been
+authenticated, then pass through, or the user will be redirected to the login page.</p></li>
+<li><p>Login page with a login form</p></li>
+</ol>
+
+
+<p>For the first artifacts, Lift provides very convenient customization point during Lift request
+life cycle. And for the second, Lift&rsquo;s powerful snippet can provides a convenient solution.</p>
+
+<h2>IMPLEMENTATION</h2>
+
+<ol>
+<li><p>Define a stateful rewrite rule in Boot.scala</p>
+
+<pre><code> LiftRules.statefulRewrite.prepend {
+     case RewriteRequest(ParsePath(path,_,_,_),_,_) 
+     if (!LoginForm.isLogedIn &amp;&amp; path.head != "login") =&gt; RewriteResponse("login"::Nil)
+ }
+</code></pre>
+
+<p> the rewrite function uses an flag to check whether the user is logged in or not. If not logged in
+ and the request path not begins with &ldquo;/login&rdquo;, then redirect to &ldquo;/login&rdquo;.</p>
+
+<p> Here we use LiftRules.statefulRewrite.prepend to make it the first rewrite rule for all stateful request.</p></li>
+<li><p>The Login page</p></li>
+</ol>
+
+
+<p>Here I just paste the code, since it&rsquo;s quite straight.</p>
+
+<pre><code>    &lt;!DOCTYPE html&gt;
+    &lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+    &lt;title&gt;登录页面&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body class="lift:content_id=main"&gt;
+      &lt;div id="main" class="lift:surround?with=default;at=content"&gt;
+        &lt;!-- User is not logged in, show a form to log in using the method loggedOut --&gt;
+        &lt;div class="lift:loginForm.logedOut"&gt;
+          &lt;form class="lift:loginForm.login?form=post"&gt;
+                &lt;p&gt;
+                &lt;label for="textName"&gt;Username: &lt;/label&gt;
+                &lt;input type="text" id="textName" name="name" /&gt; 
+                &lt;span class="lift:Msg?id=name;errorClass=error"&gt;&lt;/span&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for="textPassword"&gt;Password: &lt;/label&gt;
+                &lt;input type="password" id="textPassword" name="password" /&gt; 
+                &lt;span class="lift:Msg?id=password;errorClass=error"&gt;&lt;/span&gt;
+                &lt;/p&gt;
+                &lt;input type="submit" value="Log in" /&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+
+
+        &lt;!-- User is logged in, show who she is and a way to log out using the method loggedIn --&gt;
+        &lt;div class="lift:loginForm.logedIn"&gt;
+            &lt;form class="lift:loginForm.logout?form=post"&gt;
+            Connected as &lt;span class="lift:loginForm.getName"&gt;&lt;/span&gt;
+            &lt;input type="submit" id="btnLogOut" value="Log out" /&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+
+<p>And the backend snippet:</p>
+
+<pre><code>    object LoginForm {
+      private object name extends SessionVar("")
+      private object password extends RequestVar("")
+      private object refer extends RequestVar(S.referer openOr "/")
+      var isLogedIn = false
+
+      def hello(html: NodeSeq) = html
+
+      def logedIn(html: NodeSeq) =
+        if (isLogedIn) html else NodeSeq.Empty
+
+      def logedOut(html: NodeSeq) =
+        if (!isLogedIn) html else NodeSeq.Empty
+
+      def login = {
+
+        def processLogin() {
+            name.is match {
+              case "lift" =&gt; 
+                *isLogedIn = true*
+              case _ =&gt; S.error("user","user name or password error")
+            }
+        }
+
+        val r = refer.is
+
+        "name=name" #&gt; SHtml.textElem(name) &amp;
+          "name=password" #&gt; (SHtml.textElem(password) ++ SHtml.hidden(() =&gt; refer.set(r))) &amp;
+          "type=submit" #&gt; SHtml.onSubmitUnit(processLogin)
+      }
+
+      def logout = {
+        def processLogOut() { isLogedIn = false }
+        val r = refer.is
+        "type=submit" #&gt; SHtml.onSubmitUnit(processLogOut)
+      }
+
+      def getName = "*" #&gt; (name.is + "guest")
+    }
+</code></pre>
+
+<p>Note the S.refer is used to track last url address, so that when user is logged in or logged out, it will go to
+the last page visited.</p>
+
+<p>And the for authentication, just setting a var flag to be true for simplicity.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Scala]]></title>

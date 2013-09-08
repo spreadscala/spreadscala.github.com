@@ -5,12 +5,18 @@
         <lastmod>2013-09-08T14:16:53+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://spreadscala.github.io/blog/2013/09/08/force-user-login-when-not-authenticated-in-lift/
+        </loc>
+        <lastmod>2013-09-08T15:30:48+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://spreadscala.github.io/blog/archives/</loc>
-        <lastmod>2013-09-08T14:16:53+08:00</lastmod>
+        <lastmod>2013-09-08T15:30:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://spreadscala.github.io/</loc>
-        <lastmod>2013-09-08T14:16:53+08:00</lastmod>
+        <lastmod>2013-09-08T15:30:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://spreadscala.github.io/robots.txt</loc>
